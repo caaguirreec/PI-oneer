@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript">
+        function showDivAcc() {
+            document.getElementById('div2').style.display = 'block';
+            document.getElementById('div3').style.display = 'none';
+            var url = "http://192.168.3.15:3000/api/";
+            var state = "ON";
+
+            var client = new XMLHttpRequest();
+
+            client.open("PUT", url+state, false);
+
+            client.setRequestHeader("Content-Type", "text/plain");
+
+            client.send(state);
+
+
+
+            return false;
+        }
+        function showDivStop() {
+            document.getElementById('div3').style.display = 'block';
+            document.getElementById('div2').style.display = 'none';
+            var url = "http://192.168.3.15:3000/api/";
+            var state = "OFF";
+
+            var client = new XMLHttpRequest();
+
+            client.open("PUT", url+state, false);
+
+            client.setRequestHeader("Content-Type", "text/plain");
+
+            client.send(state);
+
+
+            return false;
+        }
+
+    </script>
+</head>
+
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+
+<% include templates/menu.ejs %>
+
+<br><br>
+<form action="" method="post">
+    <input type="submit" onclick="return showDivAcc();" value="Accelerate" />
+</form>
+<div id="div2" style="display: none;">Accelerating...as a champion, Schumi dear...</div>
+<br>
+<form action="" method="post">
+    <input type="submit" onclick="return showDivStop();" value="Brake" />
+</form>
+<div id="div3" style="display: none;">Stopped!! (not so champion, right?)</div>
+</body>
+</html>
