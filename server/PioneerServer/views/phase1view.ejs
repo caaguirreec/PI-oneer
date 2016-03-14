@@ -7,7 +7,7 @@
         function showDivAcc() {
             document.getElementById('div2').style.display = 'block';
             document.getElementById('div3').style.display = 'none';
-            var url = "http://192.168.3.15:3000/api/";
+            var url = "http://localhost:3000/api/";
             var state = "ON";
 
             var client = new XMLHttpRequest();
@@ -25,7 +25,7 @@
         function showDivStop() {
             document.getElementById('div3').style.display = 'block';
             document.getElementById('div2').style.display = 'none';
-            var url = "http://192.168.3.15:3000/api/";
+            var url = "http://localhost:3000/api/";
             var state = "OFF";
 
             var client = new XMLHttpRequest();
