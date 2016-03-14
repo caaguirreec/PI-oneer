@@ -42,8 +42,8 @@ public class Pioneer {
         public  void run(){
             try {
                 while(true){
-                    //wsStartEngine = RestClientService.engineStatus();
-                    wsStartEngine= "ON";
+                    wsStartEngine = RestClientService.engineStatus();
+                   // wsStartEngine= "ON";
                     if(null!=wsStartEngine)
                     switch (wsStartEngine) {
                         case "ON":
@@ -54,11 +54,11 @@ public class Pioneer {
                             stopEngine1();
                             System.out.println("Engine stopped");
                             break;
-                        default:
-                            System.out.println("No order from the server obtained");
+                        case "HOLD":
+                            System.out.println(wsStartEngine);
                             break;
                     }
-                     this.sleep(3000);
+                     this.sleep(500);
                 }
                 
                
