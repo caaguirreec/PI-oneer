@@ -4,59 +4,167 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript">
-        function showDivAcc() {
-            document.getElementById('div2').style.display = 'block';
-            document.getElementById('div3').style.display = 'none';
-            var url = "http://localhost:3000/api/";
-            var state = "ON";
 
-            var client = new XMLHttpRequest();
-
-            client.open("PUT", url+state, false);
-
-            client.setRequestHeader("Content-Type", "text/plain");
-
-            client.send(state);
-
-
-
-            return false;
+        //Set and return the ip of the server
+        function ip() {
+            var url = "http://192.168.3.11:3000/api/";
+            return url;
         }
-        function showDivStop() {
-            document.getElementById('div3').style.display = 'block';
-            document.getElementById('div2').style.display = 'none';
-            var url = "http://localhost:3000/api/";
-            var state = "OFF";
+
+        //Puts the FORWARD state for 100ms then stops
+        function showDivAcc(url)
+        {
+            var state = "FORWARD";
 
             var client = new XMLHttpRequest();
-
             client.open("PUT", url+state, false);
-
             client.setRequestHeader("Content-Type", "text/plain");
-
             client.send(state);
+            client.abort();
 
+            //Puts STOP state after time is elapsed (100ms)
+            window.setTimeout(function()
+            {
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="STOP";
+
+                client.open("PUT", url+"STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("STOP");
+            }, 100);
 
             return false;
         }
 
+        //Puts the LEFT state for 50ms then stops
+        function showDivLeft(url)
+        {
+            var state = "LEFT";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+state, false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send(state);
+            client.abort();
+
+            //Puts STOP state after time is elapsed (50ms)
+            window.setTimeout(function()
+            {
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="STOP";
+
+                client.open("PUT", url+"STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("STOP");
+            }, 50);
+
+            return false;
+        }
+
+        //Puts the RIGHT state for 50ms then stops
+        function showDivRight(url)
+        {
+            var state = "RIGHT";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+state, false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send(state);
+            client.abort();
+
+            //Puts STOP state after time is elapsed (50ms)
+            window.setTimeout(function()
+            {
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="STOP";
+
+                client.open("PUT", url+"STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("STOP");
+            }, 50);
+
+            return false;
+        }
+
+        //Puts the BACKWARD state for 100ms then stops
+        function showDivBack(url)
+        {
+            var state = "BACKWARD";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+state, false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send(state);
+            client.abort();
+
+            //Puts STOP state after time is elapsed (100ms)
+            window.setTimeout(function()
+            {
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="STOP";
+
+                client.open("PUT", url+"STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("STOP");
+            }, 100);
+
+            return false;
+        }
+
+        //Used to control the robot with the keyboard (wasd). Is executed when a key is pressed.
+        function key(e)
+        {
+            //Go forward if 'w' or 'W' key is pressed
+            if (e.keyCode == 119|| e.keyCode == 87)
+            {
+                showDivAcc(ip());
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="Going Forward";
+            }
+            //Go left if 'a' or 'A' key is pressed
+            if (e.keyCode == 65 ||e.keyCode ==  97)
+            {
+                showDivLeft(ip());
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="Going Left";
+            }
+            //Go right if 'd' or 'D' key is pressed
+            if (e.keyCode == 68 ||e.keyCode ==  100)
+            {
+                showDivRight(ip());
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="Going Right";
+            }
+            //Go backward if 's' or 'S' key is pressed
+            if (e.keyCode == 115 ||e.keyCode ==  83)
+            {
+                showDivBack(ip());
+                document.getElementById('div3').style.display = 'block';
+                document.getElementById('div3').innerHTML="Going Backward";
+            }
+        }
     </script>
 </head>
 
+<body onkeypress="javascript:key(event);">
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
 
 <% include templates/menu.ejs %>
-
 <br><br>
-<form action="" method="post">
-    <input type="submit" onclick="return showDivAcc();" value="Accelerate" />
+<form  >
+    <input type="submit" onclick="return showDivAcc(ip());" value="Forward" />
 </form>
-<div id="div2" style="display: none;">Accelerating...as a champion, Schumi dear...</div>
 <br>
-<form action="" method="post">
-    <input type="submit" onclick="return showDivStop();" value="Brake" />
+<form action="">
+    <input type="submit" onclick="return showDivBack(ip());" value="Backward" />
 </form>
-<div id="div3" style="display: none;">Stopped!! (not so champion, right?)</div>
+<form action="" >
+    <input type="submit" onclick="return showDivLeft(ip());" value="Left" />
+</form>
+<form action="" >
+    <input type="submit" onclick="return showDivRight(ip());" value="Right" />
+</form>
+<div id="div3" style="display: none;"></div>
 </body>
 </html>
