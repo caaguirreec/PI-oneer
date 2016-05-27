@@ -1,7 +1,7 @@
 # PI-oneer 
 
 #PI- The one explorer robot
-![Alt text](https://github.com/caaguirreec/PI-oneer/blob/master/logo.png "PI-oneer")
+![Alt text](https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/logo.png "PI-oneer")
 
 >"The miracle of the creation is not the creation itself, but the joy of creating it." 
 
