@@ -20,5 +20,5 @@ Video acquisition using the camera and video streaming through a web browser. Th
 #Stage 3
 Autonomous movement employing ultrasonic sensors to detect obstacles and environment variables acquisition using temperature sensor, humidity sensor, sound sensor (microphone) and a little speaker which can bark as a beautiful pet. 
 #Stage 4
-Objects recognition using machine learning algorithms, environment 3D mapping, database info recolection, real time camera movements using a servoengine combination coupled to the web browser in order to be moved using the mouse, voice commands response. 
+Objects recognition using machine learning algorithms, environment 3D mapping, database info recolection and voice commands response. 
 
