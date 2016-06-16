@@ -1,7 +1,7 @@
 # PI-oneer 
 
 <p align="center">
-<img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/logo.png" width="500">
+<img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/logo.png" width="300">
 </p>
 
 >"The miracle of the creation is not the creation itself, but the joy of creating it." 
