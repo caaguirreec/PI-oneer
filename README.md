@@ -2,9 +2,8 @@
 
 <p align="center">
 <img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/logo.png" width="300">
-</p>
-
 >"The miracle of the creation is not the creation itself, but the joy of creating it." 
+</p>
 
 Magic and colaborative project full of imagination, design, and happiness. 
 The project represents several years of wishing, desiring and hoping a big meeting between ideas,
