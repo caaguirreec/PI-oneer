@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/logo.png" width="300"><br>
->"The miracle of the creation is not the creation itself, but the joy of creating it." 
+"The miracle of the creation is not the creation itself, but the joy of creating it." 
 </p>
 
 Magic and colaborative project full of imagination, design, and happiness. 
