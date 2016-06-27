@@ -5,13 +5,13 @@
 "The miracle of the creation is not the creation itself, but the joy of creating it." 
 </p>
 
-Magic and colaborative project full of imagination, design, and happiness. 
+Magical and colaborative project full of imagination, design, and happiness. 
 The project represents several years of wishing, desiring and hoping a big meeting between ideas,
-and the realization despite the dispersed environment of us, the developers.
+and their acomplishment despite the dispersed environment of us, the developers.
 
 ##PI- The one explorer robot
 This project is designed to explore and monitor spaces with a beautiful and autonomous robot-car called PI-oneer. The main goal is to control the PI-oneer through internet while it returns data acquired from it's environment using a wide set of sensors. Moreover, the PI-oneer must have the capability to self explore the environment around it using machine learning algorithms.
-To this, the PI-oneer is equiped with a Raspberry PI as it's brain and it has two engines to control the navigation. As for the sensors, it holds a HD camera, Microphone and Ultrasound sensors, among others.
+To achieve it, the PI-oneer is equiped with a Raspberry PI as it's brain and it has two engines to control the navigation. As for the sensors, it holds a HD camera, Microphone, Ultrasound, among others.
 
 ##Team 
 <p align="center">
