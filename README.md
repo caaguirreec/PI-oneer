@@ -19,7 +19,7 @@ To achieve it, the PI-oneer is equiped with a Raspberry PI as it's brain and it 
 </p>
 ##Stage 1 (Completed!)
 
-In this stage, the mechanical components are assembled, and the first prototype is ready to run. Its movements (forward, backward, left,right) are controlled by the keyboard of a client through a web browser. The server, all written in JavaScript using Nodejs is hosted in the raspberry, which is the brain of Pioneer. Once a key (w,a,s,d) is pressed (using the standard of most videogames), the server employs a REST webservices to public the order to the client, also hosted in the raspberry and written in java. This client is always listenning to the server and when an order comes from it, a signal to the engines is sent, according. The stage 1 is completed and tunned for "real time" perception. 
+In this stage, the mechanical components are assembled, and the first prototype is ready to run. Its movements (forward, backward, left,right) are controlled by the keyboard of a user through a web browser. The server, all written in JavaScript using Nodejs is hosted in the raspberry, which is the brain of Pioneer. Once a key (w,a,s,d) is pressed (using the standard of most videogames), the server employs REST webservices to public the order to the client, also hosted in the raspberry and written in java. This client is always listenning to the server and when an order comes from it, a signal to the engines is sent, accordingly. The stage 1 is completed and tunned for "real time" perception. 
 <p align="center">
 <img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/20160527_154540.jpg" width="600">
 </p>
