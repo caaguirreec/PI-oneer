@@ -17,61 +17,77 @@ import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
  *
  * @author César Aguirre and Santiago Molina
  */
-public class RestClientService {
-       public static String  strURL= "http://192.168.3.11:3000"; 
-    
+public class RestClientService 
+{
+    public static String  strURL= "http://192.168.3.23:3000"; 
+       
+    public String serviceAction = ""; 
+    public int serviceParam1 = -1;   
 	
     /**
     *
     * Simple RESTFUL client java implementation in order to listen the commands from the webpage in the net. 
     */
-    public static String engineStatus() {
-      String output = "";
-        String output1 = "";
-      try {
-
+    
+    public RestClientService()
+    {
+        
+    }
+    public void checkServiceStatus() 
+    {
+        String output = "";
+        try 
+        {
             URL url = new URL(strURL+"/api"); //
-                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/xml");
-
-            if (conn.getResponseCode() != 200) {
+            
+            if (conn.getResponseCode() != 200) 
+            {
                 //return output;	
                 throw new RuntimeException("Failed : HTTP error code : "
                                     + conn.getResponseCode());
-
             }
             else
             {
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-
-
-            while ((output = br.readLine()) != null) {
-            for(int n = 0; n <output.length(); n++) 
-            { char c = output.charAt(n);  
-             if(c=='"')
-             {}else{
-                    output1=output1+c;}
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));   
+                
+                //Parse actions
+                while ((output = br.readLine()) != null) 
+                {   
+                    output = output.replace("\"","");
+                    
+                    //Parse actions with parameters
+                    if(output.contains("_"))
+                    {
+                        String[] parts = output.split("_");
+                        serviceAction = parts[0];
+                        if(parts[1] != null)
+                        {
+                           serviceParam1 = Integer.parseInt(parts[1]);
+                        }
+                        else
+                        {
+                            serviceParam1 = 0;
+                        }
+                    }
+                    else
+                    {
+                        serviceAction = output;
+                    }
+                }
+                conn.disconnect();
             }
-            }
-
-            conn.disconnect();
-            }
-            System.out.println("Output from Server: "+output1);
-            return output1;
-
-      } catch (MalformedURLException e) {
-
-            return output;
-
-      } catch (IOException e) {
-      }
-        return output;
-
-
-    }
- 
-        
+            System.out.println("Output from Server: "+serviceAction);
+        } 
+        catch (MalformedURLException e) 
+        {
+        } 
+        catch (IOException e) 
+        {
+        }
+    }       
 }
+

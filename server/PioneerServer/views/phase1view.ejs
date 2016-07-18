@@ -7,7 +7,7 @@
 
         //Set and return the ip of the server
         function ip() {
-            var url = "http://192.168.3.11:3000/api/";
+            var url = "http://192.168.3.23:3000/api/";
             return url;
         }
 
@@ -106,14 +106,15 @@
                 client.open("PUT", url+"STOP", true);
                 client.setRequestHeader("Content-Type", "text/plain");
                 client.send("STOP");
-            }, 100);
+            }, 80);
 
             return false;
         }
 
-        //Used to control the robot with the keyboard (wasd). Is executed when a key is pressed.
+        //Used to control the robot with the keyboard. wasd for navigation and ijkl for camera servos. Is executed when a key is pressed.
         function key(e)
         {
+            //--------------Navigation control--------------
             //Go forward if 'w' or 'W' key is pressed
             if (e.keyCode == 119|| e.keyCode == 87)
             {
@@ -142,6 +143,132 @@
                 document.getElementById('div3').style.display = 'block';
                 document.getElementById('div3').innerHTML="Going Backward";
             }
+
+            //------------------Camera servos control------------------
+            //Move Servo1 up with "i"
+            if (e.keyCode == 105|| e.keyCode == 73)
+            {
+                servo1Up(ip())
+                document.getElementById('div4').style.display = 'block';
+                document.getElementById('div4').innerHTML="Camera UP";
+            }
+            //Move Servo1 down with "k"
+            if (e.keyCode == 107|| e.keyCode == 75)
+            {
+                servo1Down(ip())
+                document.getElementById('div4').style.display = 'block';
+                document.getElementById('div4').innerHTML="Camera DOWN";
+            }
+            //Move Servo2 right with "l"
+            if (e.keyCode == 108|| e.keyCode == 76)
+            {
+                servo2Right(ip())
+                document.getElementById('div4').style.display = 'block';
+                document.getElementById('div4').innerHTML="Camera RIGHT";
+            }
+            //Move Servo2 left with "j"
+            if (e.keyCode == 106|| e.keyCode == 74)
+            {
+                servo2left(ip())
+                document.getElementById('div4').style.display = 'block';
+                document.getElementById('div4').innerHTML="Camera LEFT";
+            }
+        }
+
+        function servo1Up(url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = "Servo1UP";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO1UP", false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send("SERVO1UP");
+            client.abort();
+            window.setTimeout(function()
+            {
+                client.open("PUT", url+"SERVO1STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("SERVO1STOP");
+            }, 50);
+        }
+
+        function servo1Down(url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = "Servo1Down";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO1DOWN", false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send("SERVO1DOWN");
+            client.abort();
+            window.setTimeout(function()
+            {
+                client.open("PUT", url+"SERVO1STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("SERVO1STOP");
+            }, 50);
+        }
+
+        function servo2Right(url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = "Servo2RIGHT";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO2RIGHT", false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send("SERVO2RIGHT");
+            client.abort();
+            window.setTimeout(function()
+            {
+                client.open("PUT", url+"SERVO2STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("SERVO2STOP");
+            }, 50);
+        }
+
+        function servo2left(url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = "Servo2LEFT";
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO2LEFT", false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send("SERVO2LEFT");
+            client.abort();
+            window.setTimeout(function()
+            {
+                client.open("PUT", url+"SERVO2STOP", true);
+                client.setRequestHeader("Content-Type", "text/plain");
+                client.send("SERVO2STOP");
+            }, 50);
+        }
+
+        function setPWMServo1(value,url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = value;
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO1_"+value, false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send(value);
+            client.abort();
+        }
+
+        function setPWMServo2(value,url)
+        {
+            document.getElementById('div4').style.display = 'block';
+            document.getElementById('div4').innerHTML = value;
+
+            var client = new XMLHttpRequest();
+            client.open("PUT", url+"SERVO2_"+value, false);
+            client.setRequestHeader("Content-Type", "text/plain");
+            client.send(value);
+            client.abort();
         }
     </script>
 </head>
@@ -155,7 +282,6 @@
 <form  >
     <input type="submit" onclick="return showDivAcc(ip());" value="Forward" />
 </form>
-<br>
 <form action="">
     <input type="submit" onclick="return showDivBack(ip());" value="Backward" />
 </form>
@@ -165,6 +291,22 @@
 <form action="" >
     <input type="submit" onclick="return showDivRight(ip());" value="Right" />
 </form>
+<br>
 <div id="div3" style="display: none;"></div>
+<br>
+<p>PWM testing</p>
+<form  >
+    Input PWM Servo1 value:<br>
+    <input type="text" name="PWMvalue" id="PWMValueID1"><br>
+    <input type="submit" onclick="return setPWMServo1(document.getElementById('PWMValueID1').value ,ip());" value="Set">
+</form>
+<form  >
+    Input PWM Servo2 value:<br>
+    <input type="text" name="PWMvalue" id="PWMValueID2"><br>
+    <input type="submit" onclick="return setPWMServo2(document.getElementById('PWMValueID2').value ,ip());" value="Set">
+</form>
+<br>
+<div id="div4" style="display: none;"></div>
+<br>
 </body>
 </html>
