@@ -27,7 +27,9 @@ In this stage, the mechanical components are assembled, and the first prototype 
 </table>
 </p>
 This picture shows the iteration changes between v1(left) and v2(right) of Pioneer.
-
+<br>
+The most significant changes are related with the inclusion of the Ultrasonic sensor in the front, the improvement of the battery (1200mAh to 25mAh) giving it more power autonomy, a camera with two servo-engines to give it two degrees of freedom,  a new PCB circuit that controls 5V outputs to servo-engines and 5V input from the ultrasonic sensor and also two programable state leds. Besides, this new PCB exposes more 5V and GRD pins in order to be able to attach future sensors.
+Because the new PCB requires space, the Raspberry Pi is now higher than version 1, giving the Pioneer more space and electronic readability. 
 ##Stage 2
 Video acquisition using the camera and video streaming through a web browser. The two servomotors attached to the camera are controlled by the analogous movement of the mouse in the web browser video window. By doing so, the robot camera is controlled with a movement alike the one of a FPV video camera. 
 ##Stage 3
