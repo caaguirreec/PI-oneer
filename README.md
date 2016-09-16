@@ -25,8 +25,8 @@ In this stage, the mechanical components are assembled, and the first prototype 
 <tr><td><img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/20160527_154540.jpg" width="300"alt="Version 1"></td>
 <td><img src="https://github.com/caaguirreec/PI-oneer/blob/master/gitimages/pioneerV2/20160916_095802.jpg" width="350" alt="Version 2"></td></tr>
 </table>
-
 </p>
+This picture shows the iteration changes between v1 and v2 of Pioneer.
 ##Stage 2
 Video acquisition using the camera and video streaming through a web browser. The two servomotors attached to the camera are controlled by the analogous movement of the mouse in the web browser video window. By doing so, the robot camera is controlled with a movement alike the one of a FPV video camera. 
 ##Stage 3
