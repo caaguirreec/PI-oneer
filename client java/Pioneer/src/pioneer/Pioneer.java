@@ -11,7 +11,9 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +43,10 @@ public class Pioneer
      */
     public static void main(String[] args) throws IOException, InterruptedException
     {
+        
+        
         System.out.println("Pi-oneer operational and waiting for action");
+        loadServoBlasterForPWM();
         //        long start = System.currentTimeMillis();
 //
 //        while (System.currentTimeMillis() - start < 120000)
@@ -72,6 +77,20 @@ SoftPwm.softPwmCreate(pwmServo2,0,pwmRange);
 
 //Start REST service for navigation
 startservice();
+    }
+    public static void loadServoBlasterForPWM() throws InterruptedException, IOException
+    {
+        
+        Process proc = Runtime.getRuntime().exec(new String[] {"sudo", "/home/pi/Pioneer/ServoBlaster/user/servod","--invert"});
+        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line = null;
+        while ((line = in.readLine()) != null) 
+        {
+          
+          //System.out.println(line);
+        }
+        proc.waitFor();
+    
     }
     /**
      * This method allows to start the listining service to the server and action the engines. It employs a separated thread in order to avoid the main application to stop.
