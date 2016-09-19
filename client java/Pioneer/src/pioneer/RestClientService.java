@@ -19,7 +19,7 @@ import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
  */
 public class RestClientService 
 {
-    public static String  strURL= "http://192.168.3.23:3000"; 
+    public static String  strURL= "http://192.168.3.45:3000"; 
        
     public String serviceAction = ""; 
     public int serviceParam1 = -1;   
