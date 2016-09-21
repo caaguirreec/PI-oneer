@@ -3,15 +3,11 @@ package pioneer;
 
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.logging.Logger;
-import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 
 /**
  *
@@ -19,7 +15,7 @@ import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
  */
 public class RestClientService 
 {
-    public static String  strURL= "http://192.168.3.45:3000"; 
+    public static String  strURL= "http://192.168.3.11:3000"; 
        
     public String serviceAction = ""; 
     public int serviceParam1 = -1;   
@@ -35,7 +31,7 @@ public class RestClientService
     }
     public void checkServiceStatus() 
     {
-        String output = "";
+        String output;
         try 
         {
             URL url = new URL(strURL+"/api"); //

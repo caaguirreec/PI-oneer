@@ -5,7 +5,6 @@ import com.pi4j.component.servo.ServoDriver;
 import com.pi4j.component.servo.ServoProvider;
 import com.pi4j.component.servo.impl.RPIServoBlasterProvider;
 import com.pi4j.wiringpi.Gpio;
-import com.pi4j.wiringpi.SoftPwm;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -28,55 +27,27 @@ public class Pioneer
     static final GpioPinDigitalOutput pin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "Engine1", PinState.LOW);
     static final GpioPinDigitalOutput pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "Engine1", PinState.LOW);
     static final GpioPinDigitalOutput pin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "Engine2", PinState.LOW);
-    static final GpioPinDigitalOutput pin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "Engine2", PinState.LOW);
-    
-    
-    
-    static int pwmServo1 = 6; //GPIO 6
-    static int pwmServo2 = 5;//GPIO 5
-    
-    static int pwmRange = 50;
-    static int pwmStep = 1;
+    static final GpioPinDigitalOutput pin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "Engine2", PinState.LOW);   
+   
+    static int pwmStep = 5;
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, InterruptedException
     {
-        
-        
+                
         System.out.println("Pi-oneer operational and waiting for action");
-        loadServoBlasterForPWM();
-        //        long start = System.currentTimeMillis();
-//
-//        while (System.currentTimeMillis() - start < 120000)
-//        { // 2 minutes
-//            for (int i = 50; i < 250; i++) {
-//                servo1.setServoPulseWidth(i); // Set raw value for this servo driver - 50 to 195
-//                Thread.sleep(4000);
-//                 System.out.println(i);
-//            }
-//            for (int i = 250; i > 50; i--) {
-//                servo1.setServoPulseWidth(i); // Set raw value for this servo driver - 50 to 195
-//                Thread.sleep(4000);
-//                System.out.println(i);
-//            }
-//        }
-
-(new Thread(new LedOperationAdvisory())).start();
-
-//Set PWM
-Gpio.wiringPiSetup();
-SoftPwm.softPwmCreate(pwmServo1,0,pwmRange);
-SoftPwm.softPwmCreate(pwmServo2,0,pwmRange);
+//        loadServoBlasterForPWM();
 
 
+    (new Thread(new LedOperationAdvisory())).start();
 
+    //Set PWM
+    Gpio.wiringPiSetup();
 
-
-
-//Start REST service for navigation
-startservice();
+    //Start REST service for navigation
+    startservice();
     }
     public static void loadServoBlasterForPWM() throws InterruptedException, IOException
     {
@@ -85,15 +56,13 @@ startservice();
         BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         String line = null;
         while ((line = in.readLine()) != null) 
-        {
-          
+        {          
           //System.out.println(line);
         }
-        proc.waitFor();
-    
+        proc.waitFor();    
     }
     /**
-     * This method allows to start the listining service to the server and action the engines. It employs a separated thread in order to avoid the main application to stop.
+     * This method allows to start the listening service to the server and action the engines. It employs a separated thread in order to avoid the main application to stop.
      */
     public static void startservice()
     {
@@ -112,19 +81,21 @@ startservice();
                     
                     //Create REST service object
                     RestClientService RESTService = new RestClientService();
-                    String  serviceAction = "";
-                    int serviceParam = -1;
+                    String  serviceAction;
+                    int serviceParam;
                     
                     //Align camera
-                    int pwmIniVal = 50+ Math.round((float)0.08 * pwmRange);
-                    //SoftPwm.softPwmWrite(pwmServo1, pwmIniVal);
-                    //SoftPwm.softPwmWrite(pwmServo2, pwmIniVal);
-                    servo1.setServoPulseWidth(pwmIniVal);
-                    servo2.setServoPulseWidth(pwmIniVal);
+                    int pwmIniVal1 = 105;
+                    int pwmIniVal2 = 160;
+                    servo1.setServoPulseWidth(pwmIniVal1);
+                    servo2.setServoPulseWidth(pwmIniVal2);
                     
-                    int servo1PWMval = pwmIniVal;
-                    int servo2PWMval = pwmIniVal;
-                    int servoPWMLimit = pwmIniVal*2;
+                    int servo1PWMval = pwmIniVal1;
+                    int servo2PWMval = pwmIniVal2;
+                    int servo1PWMLimitLow = 80;
+                    int servo1PWMLimitHigh = 185;
+                    int servo2PWMLimitLow = 120;
+                    int servo2PWMLimitHigh = 230;
                     
                     while(true)
                     {
@@ -165,86 +136,73 @@ startservice();
                                     case "SERVO1":
                                         servo1PWMval = serviceParam;
                                         System.out.println("Servo1 move: " + serviceParam);
-                                        //SoftPwm.softPwmWrite(pwmServo1, serviceParam);
                                         servo1.setServoPulseWidth(serviceParam);
                                         break;
                                     case "SERVO2":
                                         servo2PWMval = serviceParam;
                                         System.out.println("Servo2 move: " + serviceParam);
-                                        //SoftPwm.softPwmWrite(pwmServo2, serviceParam);
-                                         servo2.setServoPulseWidth(serviceParam);
+                                        servo2.setServoPulseWidth(serviceParam);
                                         break;
                                     case "SERVO1UP":
                                         System.out.println("Servo1 Up");
                                         
-                                        //Check servo limits
-                                        if(servo1PWMval>=servoPWMLimit)
+                                        servo1PWMval = servo1PWMval + pwmStep;
+                                        
+                                        //Check limits
+                                        if(servo1PWMval>=servo1PWMLimitHigh)
                                         {
-                                            servo1PWMval = servoPWMLimit;
+                                            servo1PWMval = servo1PWMLimitHigh;
                                         }
-                                        else
-                                        {
-                                            servo1PWMval = servo1PWMval + pwmStep;
-                                        }
-                                       // SoftPwm.softPwmWrite(pwmServo1, servo1PWMval);
                                          servo1.setServoPulseWidth(servo1PWMval);
                                         break;
                                     case "SERVO1DOWN":
                                         System.out.println("Servo1 Down");
                                         
-                                        //Check servo limits
-                                        if(servo1PWMval<=0)
+                                        servo1PWMval = servo1PWMval - pwmStep;
+                                            
+                                        //Check limits
+                                        if(servo1PWMval<=servo1PWMLimitLow)
                                         {
-                                            servo1PWMval = 0;
+                                            servo1PWMval = servo1PWMLimitLow;
                                         }
-                                        else
-                                        {
-                                            servo1PWMval = servo1PWMval - pwmStep;
-                                        }
-                                        //SoftPwm.softPwmWrite(pwmServo1, servo1PWMval);
                                         servo1.setServoPulseWidth(servo1PWMval);
                                         break;
                                     case "SERVO1STOP":
                                         System.out.println("Servo1 Stop");
-                                        //SoftPwm.softPwmWrite(pwmServo1, servo1PWMval);
                                         servo1.setServoPulseWidth(servo1PWMval);
                                         break;
                                     case "SERVO2RIGHT":
-                                        System.out.println("Servo2 Right");
+                                        System.out.println("Servo2 Right");   
                                         
-                                        //Check servo limits
-                                        if(servo2PWMval<=0)
+                                        servo2PWMval = servo2PWMval - pwmStep;
+                                        
+                                        //Check limits
+                                        if(servo2PWMval<=servo2PWMLimitLow)
                                         {
-                                            servo2PWMval = 0;
+                                            servo2PWMval = servo2PWMLimitLow;
                                         }
-                                        else
-                                        {
-                                            servo2PWMval = servo2PWMval - pwmStep;
-                                        }
-                                       // SoftPwm.softPwmWrite(pwmServo2, servo2PWMval);
                                         servo2.setServoPulseWidth(servo2PWMval);
                                         break;
                                     case "SERVO2LEFT":
                                         System.out.println("Servo2 Left");
                                         
-                                        //Check servo limits
-                                        if(servo2PWMval>=servoPWMLimit)
+                                        servo2PWMval = servo2PWMval + pwmStep;
+                                        
+                                        //Check limits
+                                        if(servo2PWMval>=servo2PWMLimitHigh)
                                         {
-                                            servo2PWMval = servoPWMLimit;
+                                            servo2PWMval = servo2PWMLimitHigh;
                                         }
-                                        else
-                                        {
-                                            servo2PWMval = servo2PWMval + pwmStep;
-                                        }
-                                        //SoftPwm.softPwmWrite(pwmServo2, servo2PWMval);
+
                                         servo2.setServoPulseWidth(servo2PWMval);
                                         break;
                                     case "SERVO2STOP":
                                         System.out.println("Servo2 Stop");
-                                       // SoftPwm.softPwmWrite(pwmServo2, servo2PWMval);
                                         servo2.setServoPulseWidth(servo2PWMval);
                                         break;
                                 }
+                            System.out.println("Servo 1 Value: " + servo1PWMval);
+                            System.out.println("Servo 2 Value: " + servo2PWMval);
                             this.sleep(20);
                         }
                         catch (InterruptedException ex)
