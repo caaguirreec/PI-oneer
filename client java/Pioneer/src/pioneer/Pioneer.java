@@ -7,6 +7,7 @@ import com.pi4j.component.servo.impl.RPIServoBlasterProvider;
 import com.pi4j.wiringpi.Gpio;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
@@ -28,7 +29,7 @@ public class Pioneer
     static final GpioPinDigitalOutput pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "Engine1", PinState.LOW);
     static final GpioPinDigitalOutput pin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "Engine2", PinState.LOW);
     static final GpioPinDigitalOutput pin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "Engine2", PinState.LOW);   
-   
+
     static int pwmStep = 5;
     
     /**
@@ -38,10 +39,11 @@ public class Pioneer
     {
                 
         System.out.println("Pi-oneer operational and waiting for action");
-//        loadServoBlasterForPWM();
+
 
 
     (new Thread(new LedOperationAdvisory())).start();
+    //(new Thread(new UltrasonicDistanceFrontSensor(RaspiPin.GPIO_12,RaspiPin.GPIO_08))).start();
 
     //Set PWM
     Gpio.wiringPiSetup();
@@ -49,18 +51,7 @@ public class Pioneer
     //Start REST service for navigation
     startservice();
     }
-    public static void loadServoBlasterForPWM() throws InterruptedException, IOException
-    {
-        
-        Process proc = Runtime.getRuntime().exec(new String[] {"sudo", "/home/pi/Pioneer/ServoBlaster/user/servod","--invert"});
-        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        String line = null;
-        while ((line = in.readLine()) != null) 
-        {          
-          //System.out.println(line);
-        }
-        proc.waitFor();    
-    }
+ 
     /**
      * This method allows to start the listening service to the server and action the engines. It employs a separated thread in order to avoid the main application to stop.
      */

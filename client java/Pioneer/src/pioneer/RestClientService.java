@@ -3,11 +3,13 @@ package pioneer;
 
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static javax.ws.rs.core.HttpHeaders.USER_AGENT;
 
 /**
  *
@@ -84,6 +86,47 @@ public class RestClientService
         catch (IOException e) 
         {
         }
-    }       
+    }
+     public static void sendDistanceUltrasoundSensor(float distance) 
+    {
+        
+        try 
+        {
+            URL url = new URL("http://192.168.3.40:3000/api/distance/"+distance); //
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("User-Agent", USER_AGENT);
+            //conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            
+            String urlParameters = "";
+            
+            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+           
+            if (conn.getResponseCode() != 200) 
+            {
+                //return output;
+                System.out.println("server not respond");
+               // throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+                
+            }
+            else
+            {
+                //System.out.println(conn.getInputStream());
+                BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));   
+            }
+        } 
+        catch (MalformedURLException e) 
+        {
+        } 
+        catch (IOException e) 
+        {
+            System.err.println(e); 
+        }
+    }
 }
 
