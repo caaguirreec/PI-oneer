@@ -1,0 +1,2 @@
+"C:\Users\Cesar\Downloads\netcat-1.11\nc.exe" -L -p 2222| "C:\Users\Cesar\Downloads\MPlayer\mplayer.exe" -vo direct3d -vf-add flip -fps 24 -cache 2048 -
+
