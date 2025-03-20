@@ -15,7 +15,7 @@ To achieve it, the PI-oneer is equiped with a Raspberry PI as it's brain and it 
 
 ##Team 
 <p align="center">
-<img src="https://raw.githubusercontent.com/caaguirreec/PI-oneer/master/gitimages/team.jpg" width="500">
+<img src="https://raw.githubusercontent.com/caaguirreec/PI-oneer/master/gitimages/Team.jpg" width="500">
 </p>
 ##Stage 1 (Completed!)
 
